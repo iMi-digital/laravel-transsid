@@ -8,5 +8,10 @@
             "email": "a.menk@imi.de"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "iMi\\LaravelTransSid\\": "src/"
+        }
+    },
     "require": {}
 }
