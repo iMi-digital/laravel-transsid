@@ -3,6 +3,7 @@ Trans_SID (Session IDs in URLs) for Laravel 5 Projects
 
 This module adds support for keeping session IDs (as normally stored in session cookies) to all URLs.
 This is especially useful when adding a Javascript to an Iframe as some browser block cookies in those.
+PHP already provides the `session.use_trans_sid` configuration value for this, but as Laravel 5 is implementing sessions in its on way, our module is necessary.
 
 Installation
 ------------
