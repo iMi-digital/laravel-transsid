@@ -2,6 +2,7 @@
 
 namespace iMi\LaravelTransSid;
 
+use Illuminate\Support\ServiceProvider;
 
 class UrlServiceProvider extends ServiceProvider
 {
