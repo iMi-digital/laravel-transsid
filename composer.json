@@ -1,0 +1,12 @@
+{
+    "name": "imi/laravel-transsid",
+    "description": "Trans_SID (Session IDs in URLs) for Laravel 5 Projects",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "iMi digital GmbH - Alexander Menk",
+            "email": "a.menk@imi.de"
+        }
+    ],
+    "require": {}
+}
