@@ -1,5 +1,5 @@
-Trans_SID (Session IDs in URLs) for Laravel 5 Projects
-======================================================
+Encode Session IDs in URLs for Laravel 5 Projects (Transparent SID)
+===================================================================
 
 This module adds support for keeping session IDs (as normally stored in session cookies) to all URLs.
 This is especially useful when adding a Javascript to an Iframe as some browser block cookies in those.
