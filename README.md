@@ -19,4 +19,4 @@ About Us
 
 In need of support or an implementation of a modul in an existing system, [free to contact us](mailto:digital@iMi.de). In this case, we will provide full service support for a fee.
 
-Of course we provide development of closed-source moduls as well.
+Of course we provide development of closed-source modules as well.
