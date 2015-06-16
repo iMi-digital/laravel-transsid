@@ -9,8 +9,8 @@ Installation
 
 1. Install `imi/laravel-transsid` via composer.
 2. In your `config/app.php` at `providers` replace 
-    `'Illuminate\Session\SessionServiceProvider'` with `iMi\LaravelTransSid\SessionServiceProvider` 
-3. add `iMi\LaravelTransSid\UrlServiceProvider` in the providers array
+    `'Illuminate\Session\SessionServiceProvider'` with `'iMi\LaravelTransSid\SessionServiceProvider'` 
+3. add `'iMi\LaravelTransSid\UrlServiceProvider'` at the end of the providers array
 
 About Us
 ========
