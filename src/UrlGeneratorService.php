@@ -18,6 +18,11 @@ class UrlGeneratorService extends UrlGenerator
     }
     public function to($path, $extra = array(), $secure = null)
     {
+        if (isset($extra['NO_ADD_SID'])) {
+            unset($extra['NO_ADD_SID']);
+            return parent::to($path, $extra, $secure);
+        }
+
         $url = parent::to($path, $extra, $secure);
         $url = $this->addSid($url);
         return $url;
@@ -25,6 +30,11 @@ class UrlGeneratorService extends UrlGenerator
 
     protected function toRoute($route, $parameters, $absolute)
     {
+        if (isset($parameters['NO_ADD_SID'])) {
+            unset($parameters['NO_ADD_SID']);
+            return parent::toRoute($route, $parameters, $absolute);
+        }
+
         $url = parent::toRoute($route, $parameters, $absolute);
         $url = $this->addSid($url);
         return $url;

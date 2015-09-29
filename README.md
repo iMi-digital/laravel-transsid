@@ -13,6 +13,11 @@ Installation
     `'Illuminate\Session\SessionServiceProvider'` with `'iMi\LaravelTransSid\SessionServiceProvider'` 
 3. add `'iMi\LaravelTransSid\UrlServiceProvider'` at the end of the providers array
 
+URLs generated with Laravel's URL function (for example `URL::to()`) will now have a session ID appended. If you would like to generate URLs without a session ID, add a `NO_ADD_SID` parameter:
+
+    {{ URL::to('/', ['NO_ADD_SID' => true]) }}
+
+
 About Us
 ========
 
