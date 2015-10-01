@@ -7,7 +7,7 @@ use Illuminate\Routing\UrlGenerator;
 
 class UrlGeneratorService extends UrlGenerator
 {
-    protected function addSid($url) {
+    public function addSid($url) {
         if (strpos($url, \Config::get('session.cookie')) !== false) {
             return $url;
         }
