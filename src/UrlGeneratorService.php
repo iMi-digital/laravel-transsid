@@ -41,8 +41,9 @@ class UrlGeneratorService extends UrlGenerator
     }
 
 
-    public function previous()
+    public function previous($fallback = false)
     {
+        $url = parent::previous($fallback);
         $url = parent::previous();
         $url = $this->addSid($url);
         return $url;
