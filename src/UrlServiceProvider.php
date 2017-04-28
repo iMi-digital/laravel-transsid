@@ -15,7 +15,7 @@ class UrlServiceProvider extends ServiceProvider
     {
         $this->app->bind('Illuminate\Routing\UrlGenerator', 'iMi\LaravelTransSid\UrlGeneratorService');
 
-        $this->app->bindShared('url', function ($app) {
+        $this->app->singleton('url', function ($app) {
             $routes = $app['router']->getRoutes();
 
             // The URL generator needs the route collection that exists on the router.
