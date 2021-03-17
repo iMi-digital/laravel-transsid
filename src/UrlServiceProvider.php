@@ -24,12 +24,9 @@ class UrlServiceProvider extends ServiceProvider
             $this->app->instance('routes', $routes);
 
             $url = new UrlGeneratorService(
-                $routes, $app->rebinding(
-                'request', function ($app, $request) {
+                $routes, $app->rebinding('request', function ($app, $request) {
                 $app['url']->setRequest($request);
-            }
-            )
-            );
+            }));
 
             $url->setSessionResolver(function () {
                 return $this->app['session'];

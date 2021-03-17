@@ -2,6 +2,10 @@
 
 namespace iMi\LaravelTransSid;
 
+use Illuminate\Contracts\Cache\Factory as CacheFactory;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Session\SessionManager;
+
 class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
 {
     public function register()
@@ -10,6 +14,10 @@ class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
 
         $this->registerSessionDriver();
 
-        $this->app->singleton('Illuminate\Session\Middleware\StartSession', 'iMi\LaravelTransSid\StartSessionMiddleware');
+        $this->app->singleton(StartSession::class, function () {
+            return new StartSessionMiddleware($this->app->make(SessionManager::class), function () {
+                return $this->app->make(CacheFactory::class);
+            });
+        });
     }
 }
