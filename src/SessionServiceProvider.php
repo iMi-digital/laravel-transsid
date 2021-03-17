@@ -14,7 +14,7 @@ class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
 
         $this->registerSessionDriver();
 
-        $this->app->singleton(StartSessionMiddleware::class, function () {
+        $this->app->singleton(StartSession::class, function () {
             return new StartSessionMiddleware($this->app->make(SessionManager::class), function () {
                 return $this->app->make(CacheFactory::class);
             });
