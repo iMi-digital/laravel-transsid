@@ -1,4 +1,4 @@
-Encode Session IDs in URLs for Laravel 5 Projects (Transparent SID)
+Encode Session IDs in URLs for Laravel 5-7 Projects (Transparent SID)
 ===================================================================
 
 This module adds support for keeping session IDs (as normally stored in session cookies) to all URLs.
@@ -20,7 +20,11 @@ Usage
 
 To use SessionIDs in URLs add the middleware `urlsession` to your route or routegroup.
 
-URLs generated with Laravel's URL function (for example `URL::to()`) will now have a session ID appended. If you would like to generate URLs without a session ID, add a `NO_ADD_SID` parameter:
+URLs generated with Laravel's URL function (for example `URL::to()`) will now have a session ID appended. 
+
+Deprecated (use route groups instead):
+
+If you would like to generate URLs without a session ID, add a `NO_ADD_SID` parameter:
 
     {{ URL::to('/', ['NO_ADD_SID' => true]) }}
 
