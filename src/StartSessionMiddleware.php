@@ -16,8 +16,8 @@ class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
      */
     protected function lockToUser($session, $request)
     {
-        $session->set(self::LOCKED_FIELD, [
-            'ip' => $request->getClientIp(),
+        $session->put(self::LOCKED_FIELD, [
+            'ip'    => $request->getClientIp(),
             'agent' => md5($request->server('HTTP_USER_AGENT'))
         ]);
     }
@@ -36,6 +36,12 @@ class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
             || $locked['agent'] != md5($request->server('HTTP_USER_AGENT')));
     }
 
+    /**
+     * Overwritten from parent class.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\Session\Session|mixed
+     */
     public function getSession(\Illuminate\Http\Request $request)
     {
         $session = $this->manager->driver();
@@ -45,6 +51,7 @@ class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
         if (!$session->has(self::LOCKED_FIELD)) {
             $this->lockToUser($session, $request);
         } else {
+
             // validate session against store IP and user agent hash
             if (!$this->validate($session, $request)) {
                 $session->setId(null); // refresh ID
@@ -52,7 +59,6 @@ class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
                 $this->lockToUser($session, $request);
             }
         }
-
         return $session;
     }
 }
