@@ -28,6 +28,10 @@ If you would like to generate URLs without a session ID, add a `NO_ADD_SID` para
 
     {{ URL::to('/', ['NO_ADD_SID' => true]) }}
 
+Warning
+-------
+
+Session IDs in URLs are easier to steal than a session cookie.
 
 About Us
 ========
