@@ -42,10 +42,12 @@ class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Session\Session|mixed
      */
-    public function getSession(\Illuminate\Http\Request $request)
+  /*  public function getSession(\Illuminate\Http\Request $request)
     {
         $session = $this->manager->driver();
         $session->setId($request->input($session->getName()));
+
+
 
         $session->start();
         if (!$session->has(self::LOCKED_FIELD)) {
@@ -60,5 +62,5 @@ class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
             }
         }
         return $session;
-    }
+    }*/ 
 }
