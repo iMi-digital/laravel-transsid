@@ -1,19 +1,26 @@
-Encode Session IDs in URLs for Laravel 5-7 Projects (Transparent SID)
+Encode Session IDs in URLs for Laravel 5-8 Projects (Transparent SID)
 ===================================================================
 
 This module adds support for keeping session IDs (as normally stored in session cookies) to all URLs.
 This is especially useful if your application runs in Iframe as some browser block cookies in those.
 PHP already provides the `session.use_trans_sid` configuration value for this, but as Laravel 5 is implementing sessions in its on way, our module is necessary.
 
+Compatibility
+-------------
+
+| Laravel Version | Package Version |
+| --------------- | --------------- |
+| 5.x - 6.x | 2.0 |
+| 7+ | 3.0 |
+
 Installation
 ------------
 
 1. Install `imi/laravel-transsid` via composer.
 2. In your `config/app.php` at `providers` replace 
-    `'Illuminate\Session\SessionServiceProvider'` with `'iMi\LaravelTransSid\SessionServiceProvider'` 
-3. Add `'iMi\LaravelTransSid\UrlServiceProvider'` at the end of the providers array
-4. In your `app/Http/Kernel.php` add `'urlsession' => iMi\LaravelTransSid\UrlSession::class`
-
+    `'Illuminate\Session\SessionServiceProvider'` with `\iMi\LaravelTransSid\SessionServiceProvider::class` 
+3. Add `\iMi\LaravelTransSid\UrlServiceProvider::class` at the end of the providers array
+4. In your `app/Http/Kernel.php` add `'urlsession' => \iMi\LaravelTransSid\UrlSession::class` to the `$routeMiddleware` array.
 
 Usage
 -----
