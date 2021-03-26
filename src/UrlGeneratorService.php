@@ -18,8 +18,8 @@ class UrlGeneratorService extends UrlGenerator
             return $url;
         }
         
-        $sep = (strpos($url, '?') !== false) ? '&' : '?';
-        $url .= $sep . \Config::get('session.cookie') . '=' . \Session::getId();
+        $separator = (strpos($url, '?') !== false) ? '&' : '?';
+        $url .= $separator . \Config::get('session.cookie') . '=' . \Session::getId();
 
         return $url;
     }
