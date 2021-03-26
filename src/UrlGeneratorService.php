@@ -7,16 +7,20 @@ use Illuminate\Support\Facades\Route;
 
 class UrlGeneratorService extends UrlGenerator
 {
-    public function addSid($url)
+    public function addSid($url, ?\Illuminate\Routing\Route $route = null)
     {
         // Only apply transsid to routes/routegroups with the urlsession middleware.
-        if (in_array('urlsession', Route::current()->computedMiddleware)) {
-            if (strpos($url, \Config::get('session.cookie')) !== false) {
-                return $url;
-            }
-            $sep = (strpos($url, '?') !== false) ? '&' : '?';
-            $url .= $sep . \Config::get('session.cookie') . '=' . \Session::getId();
+        if ($route === null || !in_array(UrlSession::class, $route->getAction('middleware'))) {
+            return $url;
         }
+
+        if (strpos($url, \Config::get('session.cookie')) !== false) {
+            return $url;
+        }
+        
+        $separator = (strpos($url, '?') !== false) ? '&' : '?';
+        $url .= $separator . \Config::get('session.cookie') . '=' . \Session::getId();
+
         return $url;
     }
 
@@ -39,7 +43,7 @@ class UrlGeneratorService extends UrlGenerator
         }
 
         $url = parent::toRoute($route, $parameters, $absolute);
-        $url = $this->addSid($url);
+        $url = $this->addSid($url, $route);
         return $url;
     }
 

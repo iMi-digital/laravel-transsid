@@ -20,12 +20,13 @@ Installation
 2. In your `config/app.php` at `providers` replace 
     `'Illuminate\Session\SessionServiceProvider'` with `\iMi\LaravelTransSid\SessionServiceProvider::class` 
 3. Add `\iMi\LaravelTransSid\UrlServiceProvider::class` at the end of the providers array
-4. In your `app/Http/Kernel.php` add `'urlsession' => \iMi\LaravelTransSid\UrlSession::class` to the `$routeMiddleware` array.
+4. (optional) In your `app/Http/Kernel.php` add `'urlsession' => \iMi\LaravelTransSid\UrlSession::class` to the `$routeMiddleware` array.
 
 Usage
 -----
 
-To use SessionIDs in URLs add the middleware `urlsession` to your route or routegroup.
+To use SessionIDs in URLs add the middleware `urlsession` (if you registered the middleware globally) or add the 
+`\iMi\LaravelTransSid\UrlSession::class` class directly to your route or routegroup.
 
 URLs generated with Laravel's URL function (for example `URL::to()`) will now have a session ID appended. 
 

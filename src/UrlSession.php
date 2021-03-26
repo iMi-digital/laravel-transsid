@@ -15,9 +15,7 @@ class UrlSession
      */
     public function handle($request, Closure $next)
     {
-        ini_set('session.use_trans_sid', 1);
-        ini_set('session.use_cookies', 0);
-        ini_set('session.use_only_cookies', 0);
+        // intentionally left empty - just for marking the requests
         return $next($request);
     }
 }
