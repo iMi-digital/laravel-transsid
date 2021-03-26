@@ -15,6 +15,7 @@ class UrlSession
      */
     public function handle($request, Closure $next)
     {
+        // intentionally left empty - just for marking the requests
         return $next($request);
     }
 }
