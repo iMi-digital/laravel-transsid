@@ -30,8 +30,7 @@ To use SessionIDs in URLs add the middleware `urlsession` (if you registered the
 
 URLs generated with Laravel's URL function (for example `URL::to()`) will now have a session ID appended. 
 
-Deprecated (use route groups instead):
-
+If direct path's are or the `previous()` method is used, the SID is always added, because no route is known.
 If you would like to generate URLs without a session ID, add a `NO_ADD_SID` parameter:
 
     {{ URL::to('/', ['NO_ADD_SID' => true]) }}
