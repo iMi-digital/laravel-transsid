@@ -10,14 +10,15 @@ class UrlGeneratorService extends UrlGenerator
     public function addSid($url, ?\Illuminate\Routing\Route $route = null)
     {
         // Only apply transsid to routes/routegroups with the urlsession middleware.
-        if ($route === null || !is_array($route->getAction('middleware')) || !in_array(UrlSession::class, $route->getAction('middleware'))) {
+        // or if no route is known (for example whne processing paths)
+        if ($route !== null && ( !is_array($route->getAction('middleware')) || !in_array(UrlSession::class, $route->getAction('middleware')) )) {
             return $url;
         }
 
         if (strpos($url, \Config::get('session.cookie')) !== false) {
             return $url;
         }
-        
+
         $separator = (strpos($url, '?') !== false) ? '&' : '?';
         $url .= $separator . \Config::get('session.cookie') . '=' . \Session::getId();
 
