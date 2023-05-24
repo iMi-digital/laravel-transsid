@@ -52,7 +52,7 @@ class UrlGeneratorService extends UrlGenerator
         return is_array($middleware) && in_array(UrlSession::class, $middleware);
     }
 
-    public function to($path, $extra = array(), $secure = null)
+    public function to($path, $extra = [], $secure = null)
     {
         $url = parent::to($path, $extra, $secure);
 
