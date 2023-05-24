@@ -2,15 +2,14 @@
 
 namespace iMi\LaravelTransSid;
 
+use App\Http\Kernel;
 use Illuminate\Routing\UrlGenerator;
 
 class UrlGeneratorService extends UrlGenerator
 {
     private function addSid(string $url, ?\Illuminate\Routing\Route $route = null): string
     {
-        // Only apply transsid to routes/routegroups with the urlsession middleware.
-        // or if no route is known (for example whne processing paths)
-        if ($route !== null && (!is_array($route->getAction('middleware')) || !in_array(UrlSession::class, $route->getAction('middleware')))) {
+        if (!$this->hasUrlSessionMiddleware($route)) {
             return $url;
         }
 
@@ -30,6 +29,27 @@ class UrlGeneratorService extends UrlGenerator
         $url .= '?' . http_build_query($queryParameters);
 
         return $url;
+    }
+
+    private function hasUrlSessionMiddleware(?\Illuminate\Routing\Route $route = null): bool
+    {
+
+        // Apply transsid when the urlsession middleware is defined globally.
+        /** @var Kernel $kernel */
+        $kernel = app(Kernel::class);
+        if($kernel->hasMiddleware(UrlSession::class)) {
+            return true;
+        }
+
+        // If no route is known (for example when processing paths)
+        if($route === null) {
+            return true;
+        }
+
+        // Apply transsid to routes/routegroups with the urlsession middleware.
+        /** @var ?array $middleware */
+        $middleware = $route->getAction('middleware');
+        return is_array($middleware) && in_array(UrlSession::class, $middleware);
     }
 
     public function to($path, $extra = array(), $secure = null)
