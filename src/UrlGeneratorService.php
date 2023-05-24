@@ -2,59 +2,74 @@
 
 namespace iMi\LaravelTransSid;
 
+use App\Http\Kernel;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\Route;
 
 class UrlGeneratorService extends UrlGenerator
 {
-    public function addSid($url, ?\Illuminate\Routing\Route $route = null)
+    private function addSid(string $url, ?\Illuminate\Routing\Route $route = null): string
     {
-        // Only apply transsid to routes/routegroups with the urlsession middleware.
-        // or if no route is known (for example whne processing paths)
-        if ($route !== null && ( !is_array($route->getAction('middleware')) || !in_array(UrlSession::class, $route->getAction('middleware')) )) {
+        if (!$this->hasUrlSessionMiddleware($route)) {
             return $url;
         }
 
-        if (strpos($url, \Config::get('session.cookie')) !== false) {
-            return $url;
+        // Get the current query string and parameters
+        $queryString = parse_url($url, PHP_URL_QUERY);
+        parse_str($queryString, $queryParameters);
+
+        // Add the session to the query string if needed
+        if (!isset($queryParameters['NO_ADD_SID'])) {
+            $queryParameters[\Config::get('session.cookie')] = \Session::getId();
+        } else {
+            unset($queryParameters['NO_ADD_SID']);
         }
 
-        $separator = (strpos($url, '?') !== false) ? '&' : '?';
-        $url .= $separator . \Config::get('session.cookie') . '=' . \Session::getId();
+        // Rebuild the URL
+        $url = str_replace('?' . $queryString, '', $url);
+        $url .= '?' . http_build_query($queryParameters);
 
         return $url;
     }
 
-    public function to($path, $extra = array(), $secure = null)
+    private function hasUrlSessionMiddleware(?\Illuminate\Routing\Route $route = null): bool
     {
-        if (isset($extra['NO_ADD_SID'])) {
-            unset($extra['NO_ADD_SID']);
-            return parent::to($path, $extra, $secure);
+
+        // Apply transsid when the urlsession middleware is defined globally.
+        /** @var Kernel $kernel */
+        $kernel = app(Kernel::class);
+        if($kernel->hasMiddleware(UrlSession::class)) {
+            return true;
         }
+
+        // If no route is known (for example when processing paths)
+        if($route === null) {
+            return true;
+        }
+
+        // Apply transsid to routes/routegroups with the urlsession middleware.
+        /** @var ?array $middleware */
+        $middleware = $route->getAction('middleware');
+        return is_array($middleware) && in_array(UrlSession::class, $middleware);
+    }
+
+    public function to($path, $extra = [], $secure = null)
+    {
         $url = parent::to($path, $extra, $secure);
-        $url = $this->addSid($url);
-        return $url;
+
+        return $this->addSid($url);
     }
 
     public function toRoute($route, $parameters, $absolute)
     {
-        if (isset($parameters['NO_ADD_SID'])) {
-            unset($parameters['NO_ADD_SID']);
-            return parent::toRoute($route, $parameters, $absolute);
-        }
-
         $url = parent::toRoute($route, $parameters, $absolute);
-        $url = $this->addSid($url, $route);
-        return $url;
-    }
 
+        return $this->addSid($url, $route);
+    }
 
     public function previous($fallback = false)
     {
         $url = parent::previous($fallback);
-        $url = $this->addSid($url);
-        return $url;
+
+        return $this->addSid($url);
     }
-
-
 }

@@ -2,6 +2,8 @@
 
 namespace iMi\LaravelTransSid;
 
+use Illuminate\Foundation\Application;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class UrlServiceProvider extends ServiceProvider
@@ -13,9 +15,9 @@ class UrlServiceProvider extends ServiceProvider
 
     public function registerUrlGenerator()
     {
-        $this->app->bind('Illuminate\Routing\UrlGenerator', 'iMi\LaravelTransSid\UrlGeneratorService');
+        $this->app->bind(UrlGenerator::class, UrlGeneratorService::class);
 
-        $this->app->singleton('url', function ($app) {
+        $this->app->singleton('url', function (Application $app) {
             $routes = $app['router']->getRoutes();
 
             // The URL generator needs the route collection that exists on the router.
