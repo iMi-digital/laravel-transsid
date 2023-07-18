@@ -2,6 +2,9 @@
 
 namespace iMi\LaravelTransSid;
 
+use Illuminate\Contracts\Session\Session;
+use Symfony\Component\HttpFoundation\Response;
+
 class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
 {
 
@@ -62,5 +65,15 @@ class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
         }
 
         return $session;
+    }
+
+    protected function addCookieToResponse(Response $response, Session $session)
+    {
+        // Do not add cookie if TransSID is active
+        if ($session->has(self::LOCKED_FIELD)) {
+            return;
+        }
+
+        parent::addCookieToResponse($response, $session);
     }
 }
