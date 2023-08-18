@@ -37,7 +37,7 @@ If you would like to generate URLs without a session ID, add a `NO_ADD_SID` para
 
 Livewire Support
 ----------------
-Too include Session Id's  use this script:
+To include session ids when using Livewire, add this script to your page:
 
     <script type="text/javascript">
         document.addEventListener('livewire:load', function(event) {
