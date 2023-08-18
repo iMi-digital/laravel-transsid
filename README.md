@@ -35,6 +35,18 @@ If you would like to generate URLs without a session ID, add a `NO_ADD_SID` para
 
     {{ URL::to('/', ['NO_ADD_SID' => true]) }}
 
+Livewire Support
+----------------
+Too include Session Id's  use this script:
+
+    <script type="text/javascript">
+        document.addEventListener('livewire:load', function(event) {
+            Livewire.addHeaders({
+                'X-session': '{{ Session::getId() }}',
+            })
+        });
+    </script>
+
 Warning
 -------
 
