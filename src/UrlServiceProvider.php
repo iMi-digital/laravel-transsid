@@ -3,6 +3,8 @@
 namespace iMi\LaravelTransSid;
 
 use Illuminate\Foundation\Application;
+use Illuminate\Routing\RouteCollection;
+use Illuminate\Routing\RouteCollectionInterface;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,6 +18,9 @@ class UrlServiceProvider extends ServiceProvider
     public function registerUrlGenerator()
     {
         $this->app->bind(UrlGenerator::class, UrlGeneratorService::class);
+
+                // explicitly bind RouteCollectionInterface to avoid problems with LiveWire
+        $this->app->bind(RouteCollectionInterface::class, RouteCollection::class);
 
         $this->app->singleton('url', function (Application $app) {
             $routes = $app['router']->getRoutes();
