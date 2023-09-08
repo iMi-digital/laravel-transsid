@@ -49,8 +49,8 @@ class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
     {
         $session = parent::getSession($request);
 
-        if ($request->has($session->getName())) {
-            $session->setId($request->input($session->getName()));
+        if ($id=$this->resolveSessionParameter($request, $session)) {
+            $session->setId($id);
 
             if (!$session->has(self::LOCKED_FIELD)) {
                 $this->lockToUser($session, $request);
@@ -75,5 +75,15 @@ class StartSessionMiddleware extends \Illuminate\Session\Middleware\StartSession
         }
 
         parent::addCookieToResponse($response, $session);
+    }
+
+    protected function resolveSessionParameter($request, $session)
+    {
+        if ($request->has($session->getName())) {
+            return $request->input($session->getName());
+        }
+        if ($request->hasHeader('x-session')) {
+            return $request->header('x-session');
+        }
     }
 }
