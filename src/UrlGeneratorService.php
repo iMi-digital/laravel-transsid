@@ -14,7 +14,7 @@ class UrlGeneratorService extends UrlGenerator
         }
 
         // Get the current query string and parameters
-        $queryString = parse_url($url, PHP_URL_QUERY);
+        $queryString = parse_url($url, PHP_URL_QUERY) ?? '';
         parse_str($queryString, $queryParameters);
 
         // Add the session to the query string if needed
