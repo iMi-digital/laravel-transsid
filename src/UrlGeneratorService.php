@@ -26,7 +26,9 @@ class UrlGeneratorService extends UrlGenerator
 
         // Rebuild the URL
         $url = str_replace('?' . $queryString, '', $url);
-        $url .= '?' . http_build_query($queryParameters);
+        if(!empty($queryParameters)) {
+            $url .= '?' . http_build_query($queryParameters);
+        }
 
         return $url;
     }
