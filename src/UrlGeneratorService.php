@@ -13,6 +13,11 @@ class UrlGeneratorService extends UrlGenerator
             return $url;
         }
 
+        // Don't expose sessionID to other Domains
+        if(parse_url($url, PHP_URL_HOST) != parse_url(\Config::get('app.url'))) {
+            return $url;
+        }
+
         // Get the current query string and parameters
         $queryString = parse_url($url, PHP_URL_QUERY) ?? '';
         parse_str($queryString, $queryParameters);
