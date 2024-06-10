@@ -14,7 +14,7 @@ class UrlGeneratorService extends UrlGenerator
         }
 
         // Don't expose sessionID to other Domains
-        if(parse_url($url, PHP_URL_HOST) != parse_url(\Config::get('app.url'))) {
+        if(parse_url($url, PHP_URL_HOST) != parse_url(\Config::get('app.url'), PHP_URL_HOST)) {
             return $url;
         }
 
