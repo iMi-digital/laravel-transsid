@@ -1,4 +1,4 @@
-Encode Session IDs in URLs for Laravel 5-8 Projects (Transparent SID)
+Encode Session IDs in URLs for Laravel 5-10 Projects (Transparent SID)
 ===================================================================
 
 This module adds support for keeping session IDs (as normally stored in session cookies) to all URLs.
@@ -10,8 +10,8 @@ Compatibility
 
 | Laravel Version | Package Version |
 | --------------- | --------------- |
-| 5.x - 6.x | 2.0 |
-| 7+ | 3.0 |
+| 5.x - 6.x | 2 |
+| 7+ | 3 |
 
 Installation
 ------------
@@ -21,6 +21,15 @@ Installation
     `'Illuminate\Session\SessionServiceProvider'` with `\iMi\LaravelTransSid\SessionServiceProvider::class` 
 3. Add `\iMi\LaravelTransSid\UrlServiceProvider::class` at the end of the providers array
 4. (optional) In your `app/Http/Kernel.php` add `'urlsession' => \iMi\LaravelTransSid\UrlSession::class` to the `$routeMiddleware` array.
+
+In recent Laravel versions, the service provider is replaced like this:
+
+```php
+'providers' => ServiceProvider::defaultProviders()
+    ->replace([
+        '\Illuminate\Session\SessionServiceProvider::class' => \iMi\LaravelTransSid\SessionServiceProvider::class,
+    ])
+```
 
 Usage
 -----
@@ -46,6 +55,18 @@ To include session ids when using Livewire, add this script to your page:
             })
         });
     </script>
+
+For Livewire 3
+
+    @script
+    <script>
+        Livewire.hook('request', ({ options }) => {
+            options.headers['X-session'] = '{{ Session::getId() }}';
+        })
+    </script>
+    @endscript
+
+You eventually need to disable CSRF token validation - don't do this for administrative pages / pages with login. 
 
 Warning
 -------
