@@ -68,6 +68,41 @@ For Livewire 3
 
 You eventually need to disable CSRF token validation - don't do this for administrative pages / pages with login. 
 
+If using livewire you might want to omit registering `\Illuminate\Session\SessionServiceProvider::class` and use the 
+`StartSessionMiddle` in your `Kernel.php`
+
+Seperation betweend Frontend and Admin
+--------------------------------------
+
+Don't use this for login areas. Use it only for afrontend without sensitive data.
+
+You could use different middleware groups in the `Kernel.php`
+
+```php
+ protected $middlewareGroups = [
+     'web' => [
+         \iMi\LaravelTransSid\UrlSession::class,
+         \iMi\LaravelTransSid\StartSessionMiddleware::class,
+         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+         \Illuminate\Routing\Middleware\SubstituteBindings::class,
+     ],
+
+     'web_admin' => [
+         \App\Http\Middleware\EncryptCookies::class,
+         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+         \Illuminate\Session\Middleware\StartSession::class,
+         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+         \App\Http\Middleware\VerifyCsrfToken::class,
+         \Illuminate\Routing\Middleware\SubstituteBindings::class,
+     ],
+```
+
+Force cookie-off in IFrame
+--------------------------
+
+If you application is only used in IFrames you might get "cookie was rejectes" warnings
+by browsers. You can use `StartSessionCookielessMiddleware` in such cases which never sends a cookie.
+
 Warning
 -------
 
